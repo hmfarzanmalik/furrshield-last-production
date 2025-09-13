@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\HealthRecordController;
 use App\Http\Controllers\AdoptionRequestController;
+use App\Http\Controllers\ArticleController;
 
 Route::get('admin', [AuthController::class, 'showLogin'])->name('login')->middleware('IsAuthenticated');
 Route::post('admin/login', [AuthController::class, 'login'])->name('auth.login');
@@ -63,3 +64,20 @@ Route::delete('/profile/{id}/avatar', [ProfileController::class, 'removeAvatar']
 
 //zain Pet
 Route::resource('dashboard/pets', PetController::class);
+
+// Route::get('dashboard/articles/', [ArticleController::class, 'list'])->name('articles.list');
+// Route::get('/articles/all', [ArticleController::class, 'index'])->name('articles.index');
+// Route::get('/articles/{id}', [ArticleController::class, 'show'])->name('articles.show');
+
+
+// Route::resource('dashboard/articles', ArticleController::class)->only(['index', 'show']);
+
+// Admin articles
+Route::prefix('dashboard')->group(function () {
+    Route::get('articles', [ArticleController::class, 'index'])->name('admin.articles.index');
+    Route::get('articles/create', [ArticleController::class, 'create'])->name('admin.articles.create');
+    Route::post('articles', [ArticleController::class, 'store'])->name('admin.articles.store');
+    Route::get('articles/{id}/edit', [ArticleController::class, 'edit'])->name('admin.articles.edit');
+    Route::put('articles/{id}', [ArticleController::class, 'update'])->name('admin.articles.update');
+    Route::delete('articles/{id}', [ArticleController::class, 'destroy'])->name('admin.articles.destroy');
+});

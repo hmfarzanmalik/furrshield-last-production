@@ -62,10 +62,10 @@
                     <div data-i18n=" Products"> Products</div>
                 </a>
             </li>
-            <li class="menu-item ">
-                <a href="" class="menu-link">
+            <li class="menu-item {{ request()->is('dashboard/articles*') ? 'active' : '' }}">
+                <a href="{{ route('admin.articles.index') }}" class="menu-link">
                     <i class="menu-icon icon-base bx bx-news"></i>
-                    <div data-i18n=" Manage Content"> Manage Content</div>
+                    <div data-i18n=" Manage Content"> Manage Articles</div>
                 </a>
             </li>
         @endcan
