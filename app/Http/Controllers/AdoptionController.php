@@ -38,7 +38,7 @@ class AdoptionController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.shelter.adoptions.create');
     }
 
     /**
@@ -46,7 +46,43 @@ class AdoptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if (!in_array(Auth::user()->role, ['shelter', 'admin'])) {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $request->validate([
+            'name'        => 'required|string|max:255',
+            'species'     => 'required|string|max:255',
+            'breed'       => 'nullable|string|max:255',
+            'age'         => 'nullable|integer|min:0',
+            'description' => 'nullable|string',
+            'status'      => 'required|in:available,adopted,pending',
+            'adop_img'    => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+        ]);
+
+        $adoption = new Adoption();
+        $adoption->name        = $request->name;
+        $adoption->species     = $request->species;
+        $adoption->breed       = $request->breed;
+        $adoption->age         = $request->age;
+        $adoption->description = $request->description;
+        $adoption->status      = $request->status;
+
+        if (Auth::user()->role === 'shelter') {
+            $adoption->shelter_id = Auth::user()->shelter->id;
+        }
+        
+        if ($request->hasFile('adop_img')) {
+            $file = $request->file('adop_img');
+            $extension = $file->extension();
+            $filename = 'adoption_' . time() . '_' . uniqid() . '.' . $extension;
+            $path = $file->storeAs('adoption-pets', $filename, 'public'); 
+            $adoption->adop_img = $path;
+        }
+
+        $adoption->save();
+
+        return redirect()->route('adoption.index')->with('success', 'Adoption listing created successfully.');
     }
 
     /**

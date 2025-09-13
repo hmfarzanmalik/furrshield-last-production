@@ -17,18 +17,18 @@ class DatabaseSeeder extends Seeder
     {
 
         $this->call([
-        //     AdminSeeder::class,
-        //     ShelterSeeder::class,
-        //     VetSeeder::class,
+            AdminSeeder::class,
+            ShelterSeeder::class,
+            VetSeeder::class,
             OrderSeeder::class,
             
         ]);
-        // User::factory(10)->hasPets(3)->create(['role' => 'owner']);
+        User::factory(10)->hasPets(3)->create(['role' => 'owner']);
         
         $this->call([
-            // AppointmentSeeder::class,
-            // AdoptionSeeder::class,
-            // ProductSeeder::class
+            AppointmentSeeder::class,
+            AdoptionSeeder::class,
+            ProductSeeder::class
         ]);
 
         // Product::factory(15)->create();

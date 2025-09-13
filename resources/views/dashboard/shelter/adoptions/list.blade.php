@@ -95,7 +95,14 @@
 
 @section('content')
     <div class="container mt-4">
-        <h2 class="mb-4 text-primary fw-bold"><i class="bx bx-heart"></i> Adoption Listings</h2>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="text-primary fw-bold mb-0">
+                <i class="bx bx-heart"></i> Adoption Listings
+            </h2>
+            <a href="{{ route('adoption.create') }}" class="btn btn-primary">
+                <i class="bx bx-plus me-1"></i> Add Adoption
+            </a>
+        </div>
 
         {{-- Filters --}}
         <div class="filter-card">

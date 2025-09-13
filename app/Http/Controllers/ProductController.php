@@ -68,7 +68,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // Only shelters and admins can create products
         if (!in_array(Auth::user()->role, ['shelter', 'admin'])) {
             abort(403, 'Unauthorized action.');
         }
@@ -89,12 +88,10 @@ class ProductController extends Controller
         $product->stock_quantity = $request->stock_quantity;
         $product->description = $request->description;
 
-        // Assign shelter_id if shelter is logged in
         if (Auth::user()->role === 'shelter') {
             $product->shelter_id = Auth::user()->shelter->id;
         }
 
-        // Handle image upload
         if ($request->hasFile('pro_img')) {
             $file = $request->file('pro_img');
             $extension = $file->extension();
